@@ -36,7 +36,7 @@ import GlobalHeader from '../GlobalHeaders';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 const defaultProps = {
-  bgcolor: 'background.paper',
+  bgcolor: "background-paper",
   m: 1,
   style: { width: '5rem', height: '5rem' },
   borderColor: 'text.primary',
@@ -393,7 +393,7 @@ export default function Register({ next, back }) {
                   <Grid item xs={12}>
 
                     <Typography>
-                      <h4 style={{ display: 'flex', justifyContent: 'center' }}>CONATCT</h4>
+                      <h4 style={{ display: 'flex', justifyContent: 'center' }}>CONTACT</h4>
                     </Typography>
                   </Grid>
                   <Grid item xs={3} > <Field
