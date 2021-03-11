@@ -5,9 +5,9 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import RegistrationForm from './RegistrationForm';
-import WelfareForm from './WelfareForm';
-import ServiceForm from './ServiceForm';
+import Register from './register/Register';
+import Services from './service/Service';
+import Welfare from './welfare/Welfare';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,11 +23,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getSteps() {
-  return ['Select campaign settings', 'Create an ad group', 'Create an ad'];
+  return ['Registeration', 'Welfare', 'Services'];
 }
 
+function getStepContent(step, handleNext, handleBack) {
+  switch (step) {
+    case 0:
+      return <Register next={handleNext} back={handleBack} />;
+    case 1:
+      return <Welfare next={handleNext} back={handleBack} />;
+    case 2:
+      return <Services next={handleNext} back={handleBack} />;
+    default:
+      return 'Unknown step';
+  }
+}
 
-export default function MyStepper() {
+export default function HorizontalLinearStepper({ handleClose }) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
@@ -40,21 +52,12 @@ export default function MyStepper() {
   const isStepSkipped = (step) => {
     return skipped.has(step);
   };
-  const getStepContent=(step) =>{
-    switch (step) {
-      case 0:
-        return <RegistrationForm handleNext={handleNext} handleBack={handleBack}/>;
-      case 1:
-        return <WelfareForm handleNext={handleNext} handleBack={handleBack}/>;
-      case 2:
-        return <ServiceForm handleNext={handleNext} handleBack={handleBack}/>;
-      default:
-        return 'Unknown step';
-    }
-  }
-  
+
   const handleNext = () => {
     let newSkipped = skipped;
+    if (activeStep == 2) {
+      handleClose()
+    }
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
       newSkipped.delete(activeStep);
@@ -65,7 +68,11 @@ export default function MyStepper() {
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    if (activeStep == 0) {
+      handleClose()
+    } else {
+      setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    }
   };
 
   const handleSkip = () => {
@@ -117,34 +124,34 @@ export default function MyStepper() {
             </Button>
           </div>
         ) : (
-          <div>
-            <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
             <div>
-              <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
-                Back
-              </Button>
-              {isStepOptional(activeStep) && (
-                <Button
+              <Typography className={classes.instructions}>{getStepContent(activeStep, handleNext, handleBack)}</Typography>
+              <div>
+                {/* <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
+                  Back
+              </Button> 
+                {isStepOptional(activeStep) && (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleSkip}
+                    className={classes.button}
+                  >
+                    Skip
+                  </Button>
+                )}*/}
+
+                {/* <Button
                   variant="contained"
                   color="primary"
-                  onClick={handleSkip}
+                  onClick={handleNext}
                   className={classes.button}
                 >
-                  Skip
-                </Button>
-              )}
-
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleNext}
-                className={classes.button}
-              >
-                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-              </Button>
+                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                </Button> */}
+              </div>
             </div>
-          </div>
-        )}
+          )}
       </div>
     </div>
   );

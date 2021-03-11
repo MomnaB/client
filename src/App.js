@@ -1,16 +1,10 @@
-
+import logo from './logo.svg';
 import './App.css';
-import Main from './components/Main';
-import RegistrationForm from './components/RegistrationForm'
-import ServiceForm from './components/ServiceForm';
-
+import List from './components/list/List.js'
 function App() {
   return (
     <div className="App">
-     <h1>Patient Management System</h1>
-     <Main/>
-     {/* <RegistrationForm/> */}
-     {/* <ServiceForm/> */}
+      <List />
     </div>
   );
 }
